@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MediScan AI | Kidney Disease</title>
+
+    <link rel="stylesheet"
+    href="{{ url_for('static', filename='style.css') }}">
+
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+</head>
+
+<body class="kidney-theme">
+
+    <div class="scanlines"></div>
+
+    <div class="vignette"></div>
+
+    <div class="bg-blob bg-blob-1"></div>
+
+    <div class="bg-blob bg-blob-2"></div>
+
+    <div class="bg-blob bg-blob-3"></div>
+
+    <div class="container">
+
+        <!-- NAVBAR -->
+
+        <div class="disease-navigation">
+
+            <a href="/" class="nav-btn">
+
+                <i class="fa-solid fa-droplet"></i>
+
+                Diabetes
+
+            </a>
+
+            <a href="/heart" class="nav-btn">
+
+                <i class="fa-solid fa-heart-pulse"></i>
+
+                Heart
+
+            </a>
+
+            <a href="/kidney" class="nav-btn active-btn">
+
+                <i class="fa-solid fa-filter"></i>
+
+                Kidney
+
+            </a>
+
+            <a href="/history" class="nav-btn">
+
+                <i class="fa-solid fa-clock-rotate-left"></i>
+
+                History
+
+            </a>
+
+            <a href="/health_ai" class="nav-btn">
+
+                <i class="fa-solid fa-robot"></i>
+
+                AI Assistant
+
+            </a>
+
+        </div>
+
+        <!-- BADGE -->
+
+        <div class="header-badge">
+
+            <div class="header-badge-inner">
+
+                <span class="status-dot"></span>
+
+                MEDISCAN AI
+
+            </div>
+
+        </div>
+
+        <!-- TITLE -->
+
+        <h1 data-text="Kidney Disease">
+
+            <i class="fa-solid fa-filter"></i>
+
+            Kidney Disease
+
+        </h1>
+
+        <p class="subtitle">
+
+            AI Powered Renal Risk Analysis
+
+        </p>
+
+        <!-- MAIN CARD -->
+
+        <div class="main-card">
+
+            <div class="card-corner"></div>
+
+            <div class="section-label">
+
+                <i class="fa-solid fa-microscope"></i>
+
+                Renal Analysis
+
+            </div>
+
+            <form action="/predict_kidney" method="POST">
+
+                <div class="field-wrap">
+
+                    <label>Age</label>
+
+                    <input type="number"
+                    name="age"
+                    required>
+
+                </div>
+
+                <div class="field-wrap">
+
+                    <label>Blood Pressure</label>
+
+                    <input type="number"
+                    name="bp"
+                    required>
+
+                </div>
+
+                <div class="field-wrap">
+
+                    <label>Specific Gravity</label>
+
+                    <input type="number"
+                    step="0.001"
+                    name="sg"
+                    required>
+
+                </div>
+
+                <div class="field-wrap">
+
+                    <label>Albumin</label>
+
+                    <input type="number"
+                    name="al"
+                    required>
+
+                </div>
+
+                <div class="field-wrap">
+
+                    <label>Sugar</label>
+
+                    <input type="number"
+                    name="su"
+                    required>
+
+                </div>
+
+                <button type="submit">
+
+                    <i class="fa-solid fa-stethoscope"></i>
+
+                    Analyze Kidney Risk
+
+                </button>
+
+            </form>
+
+        </div>
+
+        <!-- RESULT -->
+
+        {% if prediction_text %}
+
+        <div class="result-card">
+
+            <div class="result">
+
+                <i class="fa-solid fa-filter-circle-check"></i>
+
+                {{ prediction_text }}
+
+            </div>
+
+            <div class="info-box">
+
+                <h3>
+
+                    <i class="fa-solid fa-chart-line"></i>
+
+                    Confidence Score
+
+                </h3>
+
+                <ul>
+
+                    <li>{{ confidence }}%</li>
+
+                </ul>
+
+            </div>
+
+            <div class="info-box">
+
+                <h3>
+
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+
+                    Risk Level
+
+                </h3>
+
+                {% if "High" in risk_level %}
+
+                <div class="risk-badge high">
+
+                    {{ risk_level }}
+
+                </div>
+
+                {% elif "Moderate" in risk_level %}
+
+                <div class="risk-badge moderate">
+
+                    {{ risk_level }}
+
+                </div>
+
+                {% else %}
+
+                <div class="risk-badge low">
+
+                    {{ risk_level }}
+
+                </div>
+
+                {% endif %}
+
+            </div>
+
+            <div class="info-box">
+
+                <h3>
+
+                    <i class="fa-solid fa-circle-radiation"></i>
+
+                    Risk Factors
+
+                </h3>
+
+                <ul>
+
+                    {% for factor in risk_factors %}
+
+                    <li>{{ factor }}</li>
+
+                    {% endfor %}
+
+                </ul>
+
+            </div>
+
+            <div class="info-box">
+
+                <h3>
+
+                    <i class="fa-solid fa-shield-heart"></i>
+
+                    Recommendations
+
+                </h3>
+
+                <ul>
+
+                    {% for recommendation in recommendations %}
+
+                    <li>{{ recommendation }}</li>
+
+                    {% endfor %}
+
+                </ul>
+
+            </div>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</body>
+
+</html>

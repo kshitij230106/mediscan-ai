@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MediScan AI | Heart Disease</title>
+
+    <!-- MAIN CSS -->
+    <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='style.css') }}"
+    >
+
+    <!-- FONT AWESOME -->
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+</head>
+
+<body class="heart-theme">
+
+    <!-- EFFECTS -->
+
+    <div class="scanlines"></div>
+
+    <div class="vignette"></div>
+
+    <!-- BACKGROUND BLOBS -->
+
+    <div class="bg-blob bg-blob-1"></div>
+
+    <div class="bg-blob bg-blob-2"></div>
+
+    <div class="bg-blob bg-blob-3"></div>
+
+    <!-- MAIN CONTAINER -->
+
+    <div class="container">
+
+        <!-- NAVIGATION -->
+
+        <div class="disease-navigation">
+
+            <a href="/" class="nav-btn">
+
+                <i class="fa-solid fa-droplet"></i>
+
+                Diabetes
+
+            </a>
+
+            <a href="/heart" class="nav-btn active-btn">
+
+                <i class="fa-solid fa-heart-pulse"></i>
+
+                Heart
+
+            </a>
+
+            <a href="/kidney" class="nav-btn">
+
+                <i class="fa-solid fa-filter"></i>
+
+                Kidney
+
+            </a>
+
+            <a href="/history" class="nav-btn">
+
+                <i class="fa-solid fa-clock-rotate-left"></i>
+
+                History
+
+            </a>
+
+            <a href="/health_ai" class="nav-btn">
+
+                <i class="fa-solid fa-robot"></i>
+
+                AI Assistant
+
+            </a>
+
+        </div>
+
+        <!-- HEADER BADGE -->
+
+        <div class="header-badge">
+
+            <div class="header-badge-inner">
+
+                <span class="status-dot"></span>
+
+                MEDISCAN AI
+
+            </div>
+
+        </div>
+
+        <!-- TITLE -->
+
+        <h1 data-text="Heart Disease">
+
+            <i class="fa-solid fa-heart-pulse"></i>
+
+            Heart Disease
+
+        </h1>
+
+        <!-- SUBTITLE -->
+
+        <p class="subtitle">
+
+            AI Powered Cardiac Risk Analysis System
+
+        </p>
+
+        <!-- MAIN CARD -->
+
+        <div class="main-card">
+
+            <div class="card-corner"></div>
+
+            <!-- SECTION -->
+
+            <div class="section-label">
+
+                <i class="fa-solid fa-wave-square"></i>
+
+                Cardiac Analysis
+
+            </div>
+
+            <!-- FORM -->
+
+            <form action="/predict_heart" method="POST">
+
+                <!-- AGE -->
+
+                <div class="field-wrap">
+
+                    <label>Age</label>
+
+                    <input
+                    type="number"
+                    name="age"
+                    placeholder="Enter Age"
+                    required>
+
+                </div>
+
+                <!-- SEX -->
+
+                <div class="field-wrap">
+
+                    <label>Gender</label>
+
+                    <select name="sex" required>
+
+                        <option value="">Select Gender</option>
+
+                        <option value="1">Male</option>
+
+                        <option value="0">Female</option>
+
+                    </select>
+
+                </div>
+
+                <!-- CHEST PAIN -->
+
+                <div class="field-wrap">
+
+                    <label>Chest Pain Type</label>
+
+                    <select name="cp" required>
+
+                        <option value="">Select Type</option>
+
+                        <option value="0">Typical Angina</option>
+
+                        <option value="1">Atypical Angina</option>
+
+                        <option value="2">Non-anginal Pain</option>
+
+                        <option value="3">Asymptomatic</option>
+
+                    </select>
+
+                </div>
+
+                <!-- BP -->
+
+                <div class="field-wrap">
+
+                    <label>Resting Blood Pressure</label>
+
+                    <input
+                    type="number"
+                    name="trestbps"
+                    placeholder="Blood Pressure"
+                    required>
+
+                </div>
+
+                <!-- CHOLESTEROL -->
+
+                <div class="field-wrap">
+
+                    <label>Cholesterol</label>
+
+                    <input
+                    type="number"
+                    name="chol"
+                    placeholder="Cholesterol"
+                    required>
+
+                </div>
+
+                <!-- FBS -->
+
+                <div class="field-wrap">
+
+                    <label>Fasting Blood Sugar</label>
+
+                    <select name="fbs" required>
+
+                        <option value="">Above 120 mg/dl?</option>
+
+                        <option value="1">Yes</option>
+
+                        <option value="0">No</option>
+
+                    </select>
+
+                </div>
+
+                <!-- ECG -->
+
+                <div class="field-wrap">
+
+                    <label>Resting ECG</label>
+
+                    <select name="restecg" required>
+
+                        <option value="">Select ECG</option>
+
+                        <option value="0">Normal</option>
+
+                        <option value="1">ST-T Abnormality</option>
+
+                        <option value="2">Hypertrophy</option>
+
+                    </select>
+
+                </div>
+
+                <!-- HEART RATE -->
+
+                <div class="field-wrap">
+
+                    <label>Maximum Heart Rate</label>
+
+                    <input
+                    type="number"
+                    name="thalach"
+                    placeholder="Heart Rate"
+                    required>
+
+                </div>
+
+                <!-- EXANG -->
+
+                <div class="field-wrap">
+
+                    <label>Exercise Induced Angina</label>
+
+                    <select name="exang" required>
+
+                        <option value="">Select Option</option>
+
+                        <option value="1">Yes</option>
+
+                        <option value="0">No</option>
+
+                    </select>
+
+                </div>
+
+                <!-- OLDPEAK -->
+
+                <div class="field-wrap">
+
+                    <label>Oldpeak</label>
+
+                    <input
+                    type="number"
+                    step="0.1"
+                    name="oldpeak"
+                    placeholder="Oldpeak"
+                    required>
+
+                </div>
+
+                <!-- SLOPE -->
+
+                <div class="field-wrap">
+
+                    <label>Slope</label>
+
+                    <select name="slope" required>
+
+                        <option value="">Select Slope</option>
+
+                        <option value="0">Upsloping</option>
+
+                        <option value="1">Flat</option>
+
+                        <option value="2">Downsloping</option>
+
+                    </select>
+
+                </div>
+
+                <!-- CA -->
+
+                <div class="field-wrap">
+
+                    <label>Major Vessels</label>
+
+                    <select name="ca" required>
+
+                        <option value="">Select Value</option>
+
+                        <option value="0">0</option>
+
+                        <option value="1">1</option>
+
+                        <option value="2">2</option>
+
+                        <option value="3">3</option>
+
+                    </select>
+
+                </div>
+
+                <!-- THAL -->
+
+                <div class="field-wrap">
+
+                    <label>Thalassemia</label>
+
+                    <select name="thal" required>
+
+                        <option value="">Select Type</option>
+
+                        <option value="1">Normal</option>
+
+                        <option value="2">Fixed Defect</option>
+
+                        <option value="3">Reversible Defect</option>
+
+                    </select>
+
+                </div>
+
+                <!-- BUTTON -->
+
+                <button type="submit">
+
+                    <i class="fa-solid fa-stethoscope"></i>
+
+                    Analyze Heart Risk
+
+                </button>
+
+            </form>
+
+        </div>
+
+        <!-- RESULT -->
+
+        {% if prediction_text %}
+
+        <div class="result-card">
+
+            <!-- RESULT -->
+
+            <div class="result">
+
+                <i class="fa-solid fa-heart-circle-check"></i>
+
+                {{ prediction_text }}
+
+            </div>
+
+            <!-- CONFIDENCE -->
+
+            <div class="info-box">
+
+                <h3>
+
+                    <i class="fa-solid fa-chart-line"></i>
+
+                    Confidence Score
+
+                </h3>
+
+                <ul>
+
+                    <li>{{ confidence }}%</li>
+
+                </ul>
+
+            </div>
+
+            <!-- RISK LEVEL -->
+
+            <div class="info-box">
+
+                <h3>
+
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+
+                    Risk Level
+
+                </h3>
+
+                {% if "High" in risk_level %}
+
+                <div class="risk-badge
+
+{% if 'High' in risk_level %}
+
+high-risk
+
+{% elif 'Moderate' in risk_level %}
+
+moderate-risk
+
+{% else %}
+
+low-risk
+
+{% endif %}
+
+">
+
+    {{ risk_level }}
+
+</div>
+
+                {% elif "Moderate" in risk_level %}
+
+                <div class="risk-badge moderate">
+
+                    {{ risk_level }}
+
+                </div>
+
+                {% else %}
+
+                <div class="risk-badge low">
+
+                    {{ risk_level }}
+
+                </div>
+
+                {% endif %}
+
+            </div>
+
+            <!-- RISK FACTORS -->
+
+            <div class="info-box">
+
+                <h3>
+
+                    <i class="fa-solid fa-circle-radiation"></i>
+
+                    Risk Factors
+
+                </h3>
+
+                <ul>
+
+                    {% for factor in risk_factors %}
+
+                    <li>{{ factor }}</li>
+
+                    {% endfor %}
+
+                </ul>
+
+            </div>
+
+            <!-- RECOMMENDATIONS -->
+
+            <div class="info-box">
+
+                <h3>
+
+                    <i class="fa-solid fa-shield-heart"></i>
+
+                    Recommendations
+
+                </h3>
+
+                <ul>
+
+                    {% for rec in recommendations %}
+
+                    <li>{{ rec }}</li>
+
+                    {% endfor %}
+
+                </ul>
+
+            </div>
+
+        </div>
+
+        {% endif %}
+
+        <!-- DISCLAIMER -->
+
+        <div class="disclaimer">
+
+            This AI prediction system is for educational purposes only.
+            Please consult a medical professional for diagnosis.
+
+        </div>
+
+    </div>
+
+    <!-- FLOATING AI BUTTON -->
+
+    <a href="/health_ai" class="floating-ai-btn">
+
+        <i class="fa-solid fa-robot"></i>
+
+    </a>
+
+</body>
+
+</html>

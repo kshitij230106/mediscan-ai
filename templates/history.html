@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Prediction History</title>
+
+    <link rel="stylesheet"
+    href="{{ url_for('static', filename='style.css') }}">
+
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+</head>
+
+<body class="history-theme">
+
+<div class="container">
+
+    <!-- NAVBAR -->
+
+    <div class="navbar">
+
+        <div class="logo">
+
+            <i class="fa-solid fa-heart-pulse"></i>
+            MediScan AI
+
+        </div>
+
+        <div class="disease-navigation">
+
+            <a href="/">
+                <button class="nav-btn">
+                    🩺 Diabetes
+                </button>
+            </a>
+
+            <a href="/heart">
+                <button class="nav-btn">
+                    ❤️ Heart
+                </button>
+            </a>
+
+            <a href="/kidney">
+                <button class="nav-btn">
+                    🧠 Kidney
+                </button>
+            </a>
+
+            <a href="/history">
+                <button class="nav-btn active-btn">
+                    📊 History
+                </button>
+            </a>
+
+            <a href="/health_ai">
+                <button class="nav-btn">
+                    🤖 AI Assistant
+                </button>
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- HERO -->
+
+    <div class="main-card">
+
+        <div class="section-label">
+
+            HEALTH ANALYTICS DASHBOARD
+
+        </div>
+
+        <h1>
+
+            📊 Prediction History
+
+        </h1>
+
+        <p class="subtitle">
+
+            View previous AI healthcare predictions,
+            confidence scores, risk levels,
+            and healthcare analytics history.
+
+        </p>
+
+    </div>
+
+    <!-- TABLE SECTION -->
+
+    <div class="main-card">
+
+        <div class="section-label">
+
+            PREDICTION DATABASE
+
+        </div>
+
+        {% if rows %}
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Disease</th>
+                        <th>Prediction</th>
+                        <th>Confidence</th>
+                        <th>Risk Level</th>
+                        <th>Date</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for row in rows %}
+
+                    <tr>
+
+                        <td>
+
+                            {{ row[0] }}
+
+                        </td>
+
+                        <td>
+
+                            {% if "No" in row[1] %}
+
+                            <span class="healthy-tag">
+
+                                Healthy
+
+                            </span>
+
+                            {% else %}
+
+                            <span class="danger-tag">
+
+                                Risk Detected
+
+                            </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            {{ row[2] }}%
+
+                        </td>
+
+                        <td>
+
+                            <div class="risk-badge">
+
+                                {{ row[3] }}
+
+                            </div>
+
+                        </td>
+                        <td>
+
+                            {{ row[5] }}
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        {% else %}
+
+        <div class="info-box">
+
+            <h3>
+
+                📭 No Prediction Data
+
+            </h3>
+
+            <p>
+
+                No medical prediction history found yet.
+
+            </p>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+    <!-- STATS -->
+
+    <div class="info-grid">
+
+        <div class="info-box">
+
+            <h3>
+                📈 Smart Tracking
+            </h3>
+
+            <p>
+
+                Track healthcare predictions and monitor
+                health patterns over time.
+
+            </p>
+
+        </div>
+
+        <div class="info-box">
+
+            <h3>
+                🧠 AI Analytics
+            </h3>
+
+            <p>
+
+                Analyze confidence scores and
+                AI-generated healthcare risk levels.
+
+            </p>
+
+        </div>
+
+        <div class="info-box">
+
+            <h3>
+                🔒 Secure Storage
+            </h3>
+
+            <p>
+
+                Prediction history is securely stored
+                locally using SQLite database.
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- DISCLAIMER -->
+
+    <div class="disclaimer">
+
+        ⚠ AI prediction history is stored locally
+        for educational and analytical purposes only.
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

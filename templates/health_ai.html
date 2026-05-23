@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>AI Health Assistant</title>
+
+    <link rel="stylesheet"
+    href="{{ url_for('static', filename='style.css') }}">
+
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+</head>
+
+<body class="ai-theme">
+
+<div class="container">
+
+    <!-- NAVBAR -->
+
+    <div class="navbar">
+
+        <div class="logo">
+
+            <i class="fa-solid fa-heart-pulse"></i>
+            MediScan AI
+
+        </div>
+
+        <div class="disease-navigation">
+
+            <a href="/">
+                <button class="nav-btn">
+                    🩺 Diabetes
+                </button>
+            </a>
+
+            <a href="/heart">
+                <button class="nav-btn">
+                    ❤️ Heart
+                </button>
+            </a>
+
+            <a href="/kidney">
+                <button class="nav-btn">
+                    🧠 Kidney
+                </button>
+            </a>
+
+            <a href="/history">
+                <button class="nav-btn">
+                    📊 History
+                </button>
+            </a>
+
+            <a href="/health_ai">
+                <button class="nav-btn active-btn">
+                    🤖 AI Assistant
+                </button>
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- HERO -->
+
+    <div class="main-card">
+
+        <div class="section-label">
+
+            AI HEALTHCARE SYSTEM
+
+        </div>
+
+        <div class="hero-section">
+
+            <div>
+
+                <h1>
+
+                    🤖 AI Health Assistant
+
+                </h1>
+
+                <p class="subtitle">
+
+                    Your futuristic AI-powered healthcare companion
+                    for smart medical guidance, disease awareness,
+                    nutrition advice, and healthy lifestyle support.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- INFO CARDS -->
+
+    <div class="info-grid">
+
+        <div class="info-box">
+
+            <h3>
+                🧠 Smart AI Guidance
+            </h3>
+
+            <p>
+
+                Get beginner-friendly healthcare guidance powered
+                by local Phi3 Mini AI using Ollama.
+
+            </p>
+
+        </div>
+
+        <div class="info-box">
+
+            <h3>
+                🔒 Local & Private
+            </h3>
+
+            <p>
+
+                Your healthcare questions are processed locally
+                on your machine for better privacy.
+
+            </p>
+
+        </div>
+
+        <div class="info-box">
+
+            <h3>
+                ⚡ Instant Responses
+            </h3>
+
+            <p>
+
+                Ask questions about diabetes, heart disease,
+                kidney health, fitness, nutrition and more.
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- CHAT SECTION -->
+
+    <div class="main-card">
+
+        <div class="section-label">
+
+            AI CHAT CONSOLE
+
+        </div>
+
+        <!-- CHAT BOX -->
+
+<div class="chat-box" id="chat-box">
+
+</div>
+
+<!-- CHAT INPUT -->
+
+<div class="chat-form">
+
+    <input type="text"
+    id="question"
+    placeholder="Ask your healthcare question...">
+
+    <button onclick="askAI()">
+
+        Ask AI
+
+    </button>
+
+</div>
+
+        <!-- Suggestions -->
+
+        <div class="suggestion-container">
+
+            <div class="suggestion-chip">
+                How to reduce diabetes risk?
+            </div>
+
+            <div class="suggestion-chip">
+                Best foods for heart health?
+            </div>
+
+            <div class="suggestion-chip">
+                How much water should I drink?
+            </div>
+
+            <div class="suggestion-chip">
+                Best exercise for weight loss?
+            </div>
+
+        </div>
+
+        {% if answer %}
+
+        <div class="result-card">
+
+            <div class="section-label">
+
+                AI RESPONSE
+
+            </div>
+
+            <div class="response-text">
+
+                {{ answer }}
+
+            </div>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+    <!-- DISCLAIMER -->
+
+    <div class="disclaimer">
+
+        ⚠ This AI assistant provides educational
+        healthcare guidance only and is not
+        a replacement for professional medical advice.
+
+    </div>
+
+</div>
+<script>
+
+async function askAI() {
+
+    // GET INPUT BOX
+
+    const input = document.getElementById("question");
+
+    // GET USER TEXT
+
+    const question = input.value;
+
+    // STOP EMPTY MESSAGE
+
+    if(question == "") {
+
+        return;
+
+    }
+
+    // GET CHAT BOX
+
+    const chatBox = document.getElementById("chat-box");
+
+    // SHOW USER MESSAGE
+
+    chatBox.innerHTML += `
+
+        <div class="user-message">
+
+            ${question}
+
+        </div>
+
+    `;
+
+    // CLEAR INPUT
+
+    input.value = "";
+
+    // SHOW LOADING MESSAGE
+
+    chatBox.innerHTML += `
+
+        <div class="ai-message" id="loading">
+
+            AI is typing...
+
+        </div>
+
+    `;
+
+    // SEND DATA TO FLASK
+
+    const response = await fetch("/ask_ai", {
+
+        method: "POST",
+
+        headers: {
+
+            "Content-Type": "application/json"
+
+        },
+
+        body: JSON.stringify({
+
+            question: question
+
+        })
+
+    });
+
+    // GET AI RESPONSE
+
+    const data = await response.json();
+
+    // REMOVE LOADING TEXT
+
+    document.getElementById("loading").remove();
+
+    // SHOW AI MESSAGE
+
+    chatBox.innerHTML += `
+
+        <div class="ai-message">
+
+            ${data.answer}
+
+        </div>
+
+    `;
+}
+
+</script>
+
+</body>
+
+</html>
